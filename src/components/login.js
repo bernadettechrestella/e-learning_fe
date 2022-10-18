@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
 
@@ -6,6 +6,15 @@ const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        const login = localStorage.getItem('dataLoginAdmin');
+        if (login) {
+            navigate('/listVideoAdmin');
+        }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const dataSend = {
@@ -25,7 +34,7 @@ const Login = () => {
             })
             .then(res => res.json())
             .then(hasil => {
-                console.log(hasil);
+                // console.log(hasil);
                 localStorage.setItem('dataLoginAdmin', hasil.token)
                 navigate('/listVideoAdmin')
             })
